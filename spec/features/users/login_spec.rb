@@ -61,4 +61,33 @@ RSpec.describe "the login page" do
       expect(page).to have_content("Sorry, that email and password don't match.")
     end
   end
+
+  describe "when a user is already logged in" do
+    it "redirects regular users to their profile page" do
+      login_as(@user)
+
+      visit login_path
+
+      expect(current_path).to eq(profile_path)
+      expect(page).to have_content("You are already logged in.")
+    end
+
+    it "redirects merchants to their dashboard page" do
+      login_as(@merchant)
+
+      visit login_path
+
+      expect(current_path).to eq(dashboard_path)
+      expect(page).to have_content("You are already logged in.")
+    end
+
+    it "redirects admins to the home page" do
+      login_as(@admin)
+
+      visit login_path
+
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content("You are already logged in.")
+    end
+  end
 end

@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       flash[:success] = "Registration Successful! You are now logged in."
       redirect_to profile_path
     else
-      flash[:danger] = @user.errors.full_messages
+      flash.now[:danger] = @user.errors.full_messages
       render :new
     end
   end

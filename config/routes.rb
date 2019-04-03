@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   get '/cart', to: 'cart#show'
 
-  resources :items, only: [:index]
+  resources :items, only: [:index, :show]
   resources :merchants, only: [:index]
 
   get '/profile', to: 'users#show', as: :profile

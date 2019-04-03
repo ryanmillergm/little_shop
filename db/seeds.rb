@@ -4,7 +4,7 @@ include FactoryBot::Syntax::Methods
 
 # OrderItem.destroy_all
 # Order.destroy_all
-# Item.destroy_all
+Item.destroy_all
 User.destroy_all
 
 admin = create(:admin)
@@ -16,14 +16,14 @@ merchant_2, merchant_3, merchant_4 = create_list(:merchant, 3)
 inactive_merchant_1 = create(:inactive_merchant)
 inactive_user_1 = create(:inactive_user)
 
-# item_1 = create(:item, user: merchant_1)
-# item_2 = create(:item, user: merchant_2)
-# item_3 = create(:item, user: merchant_3)
-# item_4 = create(:item, user: merchant_4)
-# create_list(:item, 10, user: merchant_1)
+item_1 = create(:item, user: merchant_1)
+item_2 = create(:item, user: merchant_2)
+item_3 = create(:item, user: merchant_3)
+item_4 = create(:item, user: merchant_4)
+create_list(:item, 10, user: merchant_1)
 
-# inactive_item_1 = create(:inactive_item, user: merchant_1)
-# inactive_item_2 = create(:inactive_item, user: inactive_merchant_1)
+inactive_item_1 = create(:inactive_item, user: merchant_1)
+inactive_item_2 = create(:inactive_item, user: inactive_merchant_1)
 
 # Random.new_seed
 # rng = Random.new
@@ -54,5 +54,5 @@ inactive_user_1 = create(:inactive_user)
 puts 'seed data finished'
 puts "Users created: #{User.count.to_i}"
 # puts "Orders created: #{Order.count.to_i}"
-# puts "Items created: #{Item.count.to_i}"
+puts "Items created: #{Item.count.to_i}"
 # puts "OrderItems created: #{OrderItem.count.to_i}"

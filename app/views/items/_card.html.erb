@@ -1,0 +1,30 @@
+<%= tag.div class: "card float-left m-3 item-card" do %>
+  <%= tag.a href: item_path(item) do %>
+    <%= image_tag item.image,
+      alt: "image for #{item.name}",
+      width: img_width,
+      class: "card-img-top",
+      id:"item-#{item.id}-image" %>
+  <% end %>
+
+  <%= tag.section class: "card-body" do %>
+    <%= tag.h5 class: "card-title" do %>
+      <%= link_to item.name, item_path(item) %>
+    <% end %>
+
+    <p>Price: <%= number_to_currency(item.price) %></p>
+    <p>Description:<br/>
+      <em><%= item.description %></em>
+    </p>
+
+    <p>
+      <strong>Sold by:</strong> <%= item.user.name %><br/>
+
+      <% if item.inventory > 0 %>
+      <strong>In stock:</strong> <%= item.inventory %>
+      <% else %>
+      <strong>Out of Stock</strong>
+      <% end %><br/>
+    </p>
+  <% end %>
+<% end %>

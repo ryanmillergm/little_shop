@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new', as: :login
   get '/logout', to: 'sessions#destroy', as: :logout
   get '/register', to: 'users#new', as: :registration
+  post '/register', to: 'users#create'
 
   get '/cart', to: 'cart#show'
 
@@ -13,7 +14,7 @@ Rails.application.routes.draw do
 
   get '/profile', to: 'users#show', as: :profile
   namespace :profile do
-    resources :orders, only: [:index,]
+    resources :orders, only: [:index]
   end
 
   namespace :dashboard do

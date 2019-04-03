@@ -13,7 +13,7 @@ RSpec.describe "the login page" do
     fill_in :email, with: @user.email
     fill_in :password, with: @user.password
 
-    click_button "Log In"
+    click_button "Log in"
 
     expect(current_path).to eq(profile_path)
 
@@ -24,7 +24,7 @@ RSpec.describe "the login page" do
     fill_in :email, with: @merchant.email
     fill_in :password, with: @merchant.password
 
-    click_button "Log In"
+    click_button "Log in"
 
     expect(current_path).to eq(dashboard_path)
     expect(page).to have_content("You are now logged in!")
@@ -34,7 +34,7 @@ RSpec.describe "the login page" do
     fill_in :email, with: @admin.email
     fill_in :password, with: @admin.password
 
-    click_button "Log In"
+    click_button "Log in"
 
     expect(current_path).to eq(root_path)
     expect(page).to have_content("You are now logged in!")
@@ -45,7 +45,7 @@ RSpec.describe "the login page" do
       fill_in :email, with: @user.email
       fill_in :password, with: "incorrect password"
 
-      click_button "Log In"
+      click_button "Log in"
 
       expect(current_path).to eq(login_path)
       expect(page).to have_content("Sorry, that email and password don't match.")
@@ -55,7 +55,7 @@ RSpec.describe "the login page" do
       fill_in :email, with: "unknown@example.com"
       fill_in :password, with: "password"
 
-      click_button "Log In"
+      click_button "Log in"
 
       expect(current_path).to eq(login_path)
       expect(page).to have_content("Sorry, that email and password don't match.")

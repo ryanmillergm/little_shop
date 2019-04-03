@@ -15,4 +15,19 @@ class Item < ApplicationRecord
     greater_than_or_equal_to: 0
   }
 
+  def self.popular_items(limit)
+    item_popularity(limit, :desc)
+  end
+
+  def self.unpopular_items(limit)
+    item_popularity(limit, :asc)
+  end
+
+  def self.item_popularity(limit, order)
+    Item.joins(:order_items)
+      .select('items.*, sum(quantity) as total_ordered')
+      .group(:id)
+      .order("total_ordered #{order}")
+      .limit(limit)
+  end
 end

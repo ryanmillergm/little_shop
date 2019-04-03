@@ -16,6 +16,7 @@ class UsersController < ApplicationController
       redirect_to profile_path
     else
       flash.now[:danger] = @user.errors.full_messages
+      @user.update(email: "", password: "")
       render :new
     end
   end

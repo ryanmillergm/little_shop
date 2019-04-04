@@ -31,13 +31,17 @@ class Item < ApplicationRecord
       .limit(limit)
   end
 
-  def average_fulfillment_time
-    average_time = order_items.where(fulfilled: true).pluck("avg(order_items.updated_at - order_items.created_at) as f_time").first
-    return nil unless average_time
-    days_and_hours = average_time.split(":").first
+  def convert_datetime_to_seconds(datetime)
+    days_and_hours = datetime.split(":").first
     days = days_and_hours.split.first.to_i
     hours = days_and_hours.split.last.to_i
     hours += days * 24
     hours * 60 * 60
+  end
+
+  def average_fulfillment_time
+    average_time = order_items.where(fulfilled: true).pluck("avg(order_items.updated_at - order_items.created_at)").first
+    return nil unless average_time
+    convert_datetime_to_seconds(average_time)
   end
 end

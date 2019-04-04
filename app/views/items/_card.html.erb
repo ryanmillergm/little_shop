@@ -1,4 +1,4 @@
-<%= tag.div class: "card float-left m-3 item-card", style: "width: #{width}rem" do %>
+<%= tag.div class: "card float-left m-3 item-card #{style_class}" do %>
   <%= tag.a href: item_path(item) do %>
     <%= image_tag item.image,
       alt: "image for #{item.name}",

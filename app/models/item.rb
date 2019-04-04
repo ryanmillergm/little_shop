@@ -32,11 +32,17 @@ class Item < ApplicationRecord
   end
 
   def average_fulfillment_time
-    fulfillments = order_items.where(fulfilled: true)
-    return nil if fulfillments.empty?
-    seconds_passed = fulfillments.sum do |order_item|
-      order_item.updated_at - order_item.created_at
-    end
-    (seconds_passed.to_f / fulfillments.length).to_i
+    average_time = order_items.where(fulfilled: true).pluck("avg(order_items.updated_at - order_items.created_at) as f_time").first
+    return nil unless average_time
+    days_and_hours = average_time.split(":").first
+    days = days_and_hours.split.first.to_i
+    hours = days_and_hours.split.last.to_i
+    hours += days * 24
+    hours * 60 * 60
+    # return nil if fulfillments.empty?
+    # seconds_passed = fulfillments.sum do |order_item|
+    #   order_item.updated_at - order_item.created_at
+    # end
+    # (seconds_passed.to_f / fulfillments.length).to_i
   end
 end

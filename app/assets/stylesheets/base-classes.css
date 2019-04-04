@@ -2,6 +2,10 @@
   display: inline;
 }
 
-.item-card {
+.item-index-card {
   width: 18rem;
+}
+
+.item-show-card {
+  width: 24rem;
 }

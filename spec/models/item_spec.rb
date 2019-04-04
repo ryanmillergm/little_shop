@@ -14,4 +14,19 @@ RSpec.describe Item, type: :model do
   describe 'relationships' do
     it { should belong_to :user }
   end
+
+  describe 'instance methods' do
+    describe "#average_fulfillment_time" do
+      it "calculates the average difference between order_item created and completion" do
+        @merchant = create(:merchant)
+        @item = create(:item, user: @merchant)
+        @order_item_1 = create(:fulfilled_order_item, item: @item, created_at: 4.days.ago, updated_at: 12.hours.ago)
+        @order_item_2 = create(:fulfilled_order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
+        @order_item_3 = create(:fulfilled_order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
+        @order_item_4 = create(:order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
+
+        expect(@item.average_fulfillment_time.round(2)).to eq(1.83)
+      end
+    end
+  end
 end

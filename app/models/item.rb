@@ -30,4 +30,13 @@ class Item < ApplicationRecord
       .order("total_ordered #{order}")
       .limit(limit)
   end
+
+  def average_fulfillment_time
+    fulfillments = order_items.where(fulfilled: true)
+    seconds_passed = fulfillments.sum do |order_item|
+      order_item.updated_at - order_item.created_at
+    end
+    days_passed = seconds_passed.to_f / 60 / 60 / 24
+    days_passed / fulfillments.length
+  end
 end

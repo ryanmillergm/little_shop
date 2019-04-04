@@ -39,10 +39,5 @@ class Item < ApplicationRecord
     hours = days_and_hours.split.last.to_i
     hours += days * 24
     hours * 60 * 60
-    # return nil if fulfillments.empty?
-    # seconds_passed = fulfillments.sum do |order_item|
-    #   order_item.updated_at - order_item.created_at
-    # end
-    # (seconds_passed.to_f / fulfillments.length).to_i
   end
 end

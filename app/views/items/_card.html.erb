@@ -20,10 +20,18 @@
       <strong>Sold by:</strong> <%= item.user.name %><br/>
 
       <% if item.inventory > 0 %>
-      <strong>In stock:</strong> <%= item.inventory %>
+        <strong>In stock:</strong> <%= item.inventory %>
       <% else %>
-      <strong>Out of Stock</strong>
+        <strong>Out of Stock</strong>
       <% end %><br/>
+
+      <% if item.average_fulfillment_time %>
+        <strong>Average Fulfillment Time: <%= distance_of_time_in_words(item.average_fulfillment_time) %></strong>
+      <% end %>
+
+      <% unless current_admin? || current_merchant? %>
+        <div class="btn btn-light"><%= link_to "Add to Cart" %></div>
+      <% end %>
     </p>
   <% end %>
 <% end %>

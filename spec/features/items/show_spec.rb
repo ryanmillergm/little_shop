@@ -30,7 +30,6 @@ RSpec.describe "item show page" do
   it "shows rounded down average fulfillment time" do
     create(:fulfilled_order_item, item: @item, created_at: 4.days.ago, updated_at: 1.day.ago)
     visit item_path(@item)
-    binding.pry
 
     expect(page).to have_content("Average Fulfillment Time: 2 days")
   end

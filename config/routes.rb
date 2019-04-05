@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   resources :merchants, only: [:index]
 
   get '/profile', to: 'users#show', as: :profile
+  get '/profile/edit', to: 'users#edit', as: :edit_profile
+  patch '/profile/edit', to: 'users#update'
   namespace :profile do
     resources :orders, only: [:index]
   end

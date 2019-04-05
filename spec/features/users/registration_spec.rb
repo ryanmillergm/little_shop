@@ -21,14 +21,7 @@ RSpec.describe 'the registration page' do
       user = User.last
 
       expect(page).to have_content("Registration Successful! You are now logged in.")
-      expect(page).to have_content(user.name)
-      expect(page).to have_content(user.address)
-      expect(page).to have_content(user.city)
-      expect(page).to have_content(user.state)
-      expect(page).to have_content(user.zip)
-      expect(page).to have_content(user.email)
-      expect(page).to have_content(user.password)
-      expect(page).to have_content(user.password_confirmation)
+      expect(page).to have_content("Logged in as #{user.name}")
     end
   end
 

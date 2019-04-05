@@ -1,9 +1,16 @@
-<h1>Hello, <%= current_user.name %>!</h1>
-<p>Email: <%= current_user.email %></p>
-<h3>Address:</h3>
-<p><%= current_user.address %></p>
-<p>
-  <%= current_user.city %>,
-  <%= current_user.state %>
-  <%= current_user.zip %>
-</p>
+<h1>Profile Page for <%= current_user.name %></h1>
+
+<section id="profile-data">
+  <p>Email: <%= current_user.email %></p>
+  <p>Role: <%= current_user.role %></p>
+  <aside id="address-details">
+    <h3>Address:</h3>
+    <p><%= current_user.address %></p>
+    <p>
+      <%= current_user.city %>,
+      <%= current_user.state %>
+      <%= current_user.zip %>
+    </p>
+  </aside>
+  <p><%= link_to 'Edit Profile Data', edit_profile_path %></p>
+</section>

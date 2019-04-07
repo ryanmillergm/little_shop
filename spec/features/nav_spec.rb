@@ -3,9 +3,15 @@ require 'rails_helper'
 RSpec.describe 'Site Nav', type: :feature do
   before :each do
     @user = create(:user)
+    @user_2 = create(:user)
     @merchant = create(:merchant)
     @admin = create(:admin)
+
+    item_1 = create(:item, user: @merchant)
+    order = create(:shipped_order, user: @user)
+    create(:fulfilled_order_item, order: order, item: item_1, price: 1, quantity: 1, created_at: 2.days.ago, updated_at: 1.minutes.ago)
   end
+
   it 'should show proper links for all visitors' do
     visit root_path
 

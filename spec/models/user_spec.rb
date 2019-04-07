@@ -12,6 +12,14 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of :zip }
   end
 
+  describe 'relationships' do
+    # as user
+    it { should have_many :orders }
+    it { should have_many(:order_items).through(:orders)}
+    # as merchant
+    it { should have_many :items }
+  end
+
   describe 'roles' do
     it 'can be created as a default user' do
       user = User.create(

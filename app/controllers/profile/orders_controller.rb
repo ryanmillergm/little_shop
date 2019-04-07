@@ -9,4 +9,24 @@ class Profile::OrdersController < ApplicationController
   def show
     @order = Order.find(params[:id])
   end
+
+  def destroy
+    @order = Order.find(params[:id])
+    if @order.user == current_user
+      @order.order_items.where(fulfilled: true).each do |oi|
+        item = Item.find(oi.item_id)
+        item.inventory += oi.quantity
+        item.save
+        oi.fulfilled = false
+        oi.save
+      end
+
+      @order.status = :cancelled
+      @order.save
+
+      redirect_to profile_orders_path
+    else
+      render file: 'public/404', status: 404
+    end
+  end
 end

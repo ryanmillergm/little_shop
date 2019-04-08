@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   namespace :dashboard do
     get '/', to: 'dashboard#index'
     resources :items, only: [:index, :show, :new]
+    put '/order_items/:order_item_id/fulfill', to: 'orders#fulfill', as: 'fulfill_order_item'
     resources :orders, only: [:show]
   end
 
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show]
     resources :merchants, only: [:show] do
       resources :items, only: [:index, :new]
+      resources :orders, only: [:show]
     end
   end
 end

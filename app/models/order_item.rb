@@ -23,4 +23,8 @@ class OrderItem < ApplicationRecord
       save
     end
   end
+
+  def inventory_available
+    item.inventory >= quantity
+  end
 end

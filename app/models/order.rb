@@ -15,4 +15,53 @@ class Order < ApplicationRecord
     oi = order_items.pluck("sum(quantity*price)")
     oi.sum
   end
+
+  def self.pending_orders_for_merchant(merchant_id)
+    self.joins(:items)
+        .where(status: :pending)
+        .where(items: {merchant_id: merchant_id})
+        .distinct
+  end
+
+  def total_quantity_for_merchant(merchant_id)
+    items.joins(:order_items)
+         .select('items.id, order_items.quantity')
+         .where(items: {merchant_id: merchant_id})
+         .distinct
+         .sum('order_items.quantity')
+  end
+
+  def total_price_for_merchant(merchant_id)
+    items.joins(:order_items)
+         .where(items: {merchant_id: merchant_id})
+         .select('items.id, order_items.quantity, order_items.price')
+         .distinct
+         .sum('order_items.quantity * order_items.price')
+  end
+
+  def order_items_for_merchant(merchant_id)
+    order_items.joins(:item)
+               .where(items: {merchant_id: merchant_id})
+  end
+
+  def self.orders_by_status(status)
+    Order.where(status: status)
+  end
+
+  def self.pending_orders
+    orders_by_status(:pending)
+  end
+
+  def self.packaged_orders
+    orders_by_status(:packaged)
+  end
+
+  def self.shipped_orders
+    orders_by_status(:shipped)
+  end
+
+  def self.cancelled_orders
+    orders_by_status(:cancelled)
+  end
+
 end

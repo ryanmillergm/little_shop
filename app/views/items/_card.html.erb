@@ -30,7 +30,7 @@
       <% end %>
 
       <% unless current_admin? || current_merchant? %>
-        <div class="btn btn-light"><%= link_to "Add to Cart",  cart_path(), method: :patch%></div>
+        <div class="btn btn-light"><%= link_to "Add to Cart",  update_cart_path(item.id)%></div>
       <% end %>
     </p>
   <% end %>

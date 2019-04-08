@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   post '/register', to: 'users#create'
 
   get '/cart', to: 'cart#show'
-  get '/cart/:item_id', to: 'cart#update'
+  get '/cart/:item_id', to: 'cart#update', as: :update_cart
 
   resources :items, only: [:index, :show]
   resources :merchants, only: [:index]

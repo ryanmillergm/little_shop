@@ -32,6 +32,20 @@ RSpec.describe Cart do
       end
     end
 
+    describe "#remove_item" do
+      it "decrements an existing item" do
+        @cart.remove_item(1)
+        expect(@cart.count_of(1)).to eq(2)
+      end
+
+      it "deletes an item when count goes to zero" do
+        @cart.remove_item(1)
+        @cart.remove_item(1)
+        @cart.remove_item(1)
+        expect(@cart.contents.keys).to_not include("1")
+      end
+    end
+
     describe "#items" do
       it "can map item_ids to objects" do
 

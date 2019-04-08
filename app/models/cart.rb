@@ -11,7 +11,12 @@ class Cart
   end
 
   def add_item(item_id)
-    @contents[item_id.to_s] = count_of(item_id) + 1
+    @contents[item_id.to_s] += 1
+  end
+
+  def remove_item(item_id)
+    @contents[item_id.to_s] -= 1
+    @contents.delete(item_id.to_s) if count_of(item_id) == 0
   end
 
   def count_of(item_id)

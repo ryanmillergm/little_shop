@@ -2,18 +2,25 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'welcome#index'
 
+  # Authentication Paths
   get '/login', to: 'sessions#new', as: :login
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy', as: :logout
   get '/register', to: 'users#new', as: :registration
   post '/register', to: 'users#create'
 
+  # Cart Paths
   get '/cart', to: 'cart#show'
-  get '/cart/:item_id', to: 'cart#update', as: :update_cart
+  post '/cart/items/:id', to: 'cart#increment', as: :cart_item
+  patch '/cart/items/:id', to: 'cart#decrement'
+  delete '/cart', to: 'cart#destroy', as: :empty_cart
+  delete '/cart/items/:id', to: 'cart#remove_item', as: :remove_item
+
 
   resources :items, only: [:index, :show]
   resources :merchants, only: [:index]
 
+  # User Profile Paths
   get '/profile', to: 'users#show', as: :profile
   get '/profile/edit', to: 'users#edit', as: :edit_profile
   patch '/profile/edit', to: 'users#update'

@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Cart do
   describe "Cart with existing contents" do
     before :each do
+      @item_1 = create(:item, id: 1)
+      @item_4 = create(:item, id: 4)
       @cart = Cart.new({"1" => 3, "4" => 2})
     end
 
@@ -27,6 +29,39 @@ RSpec.describe Cart do
       it "can increment an item not in the cart yet" do
         @cart.add_item(2)
         expect(@cart.count_of(2)).to eq(1)
+      end
+    end
+
+    describe "#remove_item" do
+      it "decrements an existing item" do
+        @cart.remove_item(1)
+        expect(@cart.count_of(1)).to eq(2)
+      end
+
+      it "deletes an item when count goes to zero" do
+        @cart.remove_item(1)
+        @cart.remove_item(1)
+        @cart.remove_item(1)
+        expect(@cart.contents.keys).to_not include("1")
+      end
+    end
+
+    describe "#items" do
+      it "can map item_ids to objects" do
+
+        expect(@cart.items).to eq({@item_1 => 3, @item_4 => 2})
+      end
+    end
+
+    describe "#total" do
+      it "can calculate the total of all items in the cart" do
+        expect(@cart.total).to eq(@item_1.price * 3 + @item_4.price * 2)
+      end
+    end
+
+    describe "#subtotal" do
+      it "calculates the total for a single item" do
+        expect(@cart.subtotal(@item_1)).to eq(@cart.count_of(@item_1.id) * @item_1.price)
       end
     end
   end

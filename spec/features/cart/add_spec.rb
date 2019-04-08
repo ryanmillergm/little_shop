@@ -6,7 +6,7 @@ RSpec.describe "adding an item to the cart" do
     @item = create(:item)
   end
 
-  context "as a visitor or regular user" do
+  context "a visitor or regular user can add items to the cart" do
     before :each do
       @user = create(:user)
     end
@@ -26,13 +26,14 @@ RSpec.describe "adding an item to the cart" do
       click_on "Add to Cart"
       expect(page).to have_content("#{@item.name} has been added to your cart!")
       expect(page).to have_content("Cart: 1")
+      visit item_path(@item)
       click_on "Add to Cart"
       expect(page).to have_content("#{@item.name} has been added to your cart!")
       expect(page).to have_content("Cart: 2")
     end
   end
 
-  context "as an admin or merchant" do
+  context "an admin or merchant does not see add cart button" do
     before :each do
       @merchant = create(:merchant)
       @admin = create(:admin)

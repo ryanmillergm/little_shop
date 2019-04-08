@@ -17,4 +17,25 @@ class Cart
   def count_of(item_id)
     @contents[item_id.to_s]
   end
+
+  def items
+    @items ||= load_items
+  end
+
+  def load_items
+    @contents.map do |item_id, quantity|
+      item = Item.find(item_id)
+      [item, quantity]
+    end.to_h
+  end
+
+  def total
+    items.sum do |item, quantity|
+      item.price * quantity
+    end
+  end
+
+  def subtotal(item)
+    count_of(item.id) * item.price
+  end
 end

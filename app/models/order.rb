@@ -43,4 +43,25 @@ class Order < ApplicationRecord
     order_items.joins(:item)
                .where(items: {merchant_id: merchant_id})
   end
+
+  def self.orders_by_status(status)
+    Order.where(status: status)
+  end
+
+  def self.pending_orders
+    orders_by_status(:pending)
+  end
+
+  def self.packaged_orders
+    orders_by_status(:packaged)
+  end
+
+  def self.shipped_orders
+    orders_by_status(:shipped)
+  end
+
+  def self.cancelled_orders
+    orders_by_status(:cancelled)
+  end
+
 end

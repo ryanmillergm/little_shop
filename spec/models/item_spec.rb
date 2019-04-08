@@ -15,6 +15,41 @@ RSpec.describe Item, type: :model do
     it { should belong_to :user }
   end
 
+  describe 'class methods' do
+    describe 'item popularity' do
+      before :each do
+        merchant = create(:merchant)
+        @items = create_list(:item, 6, user: merchant)
+        user = create(:user)
+
+        order = create(:shipped_order, user: user)
+        create(:fulfilled_order_item, order: order, item: @items[3], quantity: 7)
+        create(:fulfilled_order_item, order: order, item: @items[1], quantity: 6)
+        create(:fulfilled_order_item, order: order, item: @items[0], quantity: 5)
+        create(:fulfilled_order_item, order: order, item: @items[2], quantity: 3)
+        create(:fulfilled_order_item, order: order, item: @items[5], quantity: 2)
+        create(:fulfilled_order_item, order: order, item: @items[4], quantity: 1)
+      end
+
+      it '.item_popularity' do
+        expect(Item.item_popularity(4, :desc)).to eq([@items[3], @items[1], @items[0], @items[2]])
+        expect(Item.item_popularity(4, :asc)).to eq([@items[4], @items[5], @items[2], @items[0]])
+      end
+
+      it '.popular_items' do
+        actual = Item.popular_items(3)
+        expect(actual).to eq([@items[3], @items[1], @items[0]])
+        expect(actual[0].total_ordered).to eq(7)
+      end
+
+      it '.unpopular_items' do
+        actual = Item.unpopular_items(3)
+        expect(actual).to eq([@items[4], @items[5], @items[2]])
+        expect(actual[0].total_ordered).to eq(1)
+      end
+    end
+  end
+
   describe 'instance methods' do
     describe "#average_fulfillment_time" do
       it "calculates the average number of seconds between order_item creation and completion" do

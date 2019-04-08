@@ -29,6 +29,15 @@ RSpec.describe 'User Order workflow', type: :feature do
     expect(page).to have_content("In stock: #{@inventory_level}")
   end
 
+  describe 'as a user trying to cancel someone elses order' do
+    it 'should not be successful' do
+      @user2 = create(:user)
+      login_as(@user2)
+      page.driver.submit :delete, "/profile/orders/#{@order_1.id}", {}
+      expect(page.status_code).to eq(404)
+    end
+  end
+
   describe 'order cancellation' do
     scenario 'as a user' do
       login_as(@user)

@@ -22,12 +22,15 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     get '/', to: 'dashboard#index'
-    resources :items, only: [:index]
+    resources :items, only: [:index, :show, :new]
+    resources :orders, only: [:show]
   end
 
   namespace :admin do
     get '/dashboard', to: 'dashboard#index'
     resources :users, only: [:index, :show]
-    resources :merchants, only: [:show]
+    resources :merchants, only: [:show] do
+      resources :items, only: [:index, :new]
+    end
   end
 end

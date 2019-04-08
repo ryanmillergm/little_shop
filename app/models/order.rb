@@ -12,7 +12,7 @@ class Order < ApplicationRecord
   end
 
   def total_cost
-    oi = order_items.pluck("sum(quantity*price)")
+    oi = order_items.pluck("sum(quantity * price)")
     oi.sum
   end
 

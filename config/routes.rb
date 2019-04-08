@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post '/register', to: 'users#create'
 
   get '/cart', to: 'cart#show'
+  get '/cart/:item_id', to: 'cart#update', as: :update_cart
 
   resources :items, only: [:index, :show]
   resources :merchants, only: [:index]
@@ -22,7 +23,9 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     get '/', to: 'dashboard#index'
-    resources :items, only: [:index]
+    resources :items, only: [:index, :show, :new]
+    put '/order_items/:order_item_id/fulfill', to: 'orders#fulfill', as: 'fulfill_order_item'
+    resources :orders, only: [:show]
   end
 
   namespace :admin do

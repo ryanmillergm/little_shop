@@ -38,4 +38,9 @@ class Order < ApplicationRecord
          .distinct
          .sum('order_items.quantity * order_items.price')
   end
+
+  def order_items_for_merchant(merchant_id)
+    order_items.joins(:item)
+               .where(items: {merchant_id: merchant_id})
+  end
 end

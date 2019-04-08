@@ -44,20 +44,42 @@ RSpec.describe "item show page" do
   end
 
   context "as a visitor" do
-    it "has a link to add the item to the cart" do
+    it "can add an item to the card" do
       visit item_path(@item)
 
-      expect(page).to have_link("Add to Cart")
+      click_on "Add to Cart"
+      expect(current_path).to eq(items_path)
+      expect(page).to have_content("#{@item.name} has been added to your cart!")
+    end
+
+    it "increments cart counter when adding items" do
+      visit item_path(@item)
+      click_on "Add to Cart"
+      visit item_path(@item)
+      click_on "Add to Cart"
+
+      expect(page).to have_content("Cart: 2")
     end
   end
 
   context "as a regular user" do
-    it "has a link to add the item to the cart" do
+    before :each do
       user = create(:user)
       login_as(user)
       visit item_path(@item)
+    end
 
-      expect(page).to have_link("Add to Cart")
+    it "can add an item to the card" do
+      click_on "Add to Cart"
+      expect(current_path).to eq(items_path)
+      expect(page).to have_content("#{@item.name} has been added to your cart!")
+    end
+
+    it "increments cart counter when adding items" do
+      click_on "Add to Cart"
+      visit item_path(@item)
+      click_on "Add to Cart"
+      expect(page).to have_content("Cart: 2")
     end
   end
 

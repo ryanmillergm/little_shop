@@ -7,4 +7,11 @@ class Admin::OrdersController < Admin::BaseController
 
     render :'/dashboard/orders/show'
   end
+
+  def ship
+    order = Order.find(params[:order_id])
+    order.status = :shipped
+    order.save
+    redirect_to admin_dashboard_path
+  end
 end

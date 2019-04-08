@@ -51,5 +51,28 @@ RSpec.describe 'Admin Order workflow', type: :feature do
         end
       end
     end
+
+    it 'ships an order' do
+      visit admin_dashboard_path
+
+      within '#packaged-orders' do
+        within "#order-#{@order_2.id}" do
+          click_button('Ship Order')
+        end
+      end
+
+      expect(current_path).to eq(admin_dashboard_path)
+
+      within '#packaged-orders' do
+        expect(page).to_not have_css("#order-#{@order_2.id}")
+      end
+
+      within '#shipped-orders' do
+        within "#order-#{@order_2.id}" do
+          expect(page).to have_link(@order_2.user.name)
+          expect(page).to have_content("Order ID #{@order_2.id}")
+        end
+      end
+    end
   end
 end

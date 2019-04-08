@@ -4,6 +4,6 @@
   Created: <%= order.created_at %>
 
   <% if order.status == 'packaged' %>
-  <%= button_to "Ship Order", admin_order_ship_path(order) %>
+  <%= button_to "Ship Order", admin_order_ship_path(order), method: :patch %>
   <% end %>
 <% end %>

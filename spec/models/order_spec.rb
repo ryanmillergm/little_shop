@@ -98,6 +98,10 @@ RSpec.describe Order, type: :model do
     it '.cancelled_orders' do
       expect(Order.cancelled_orders).to eq([@cancelled_orders[0], @cancelled_orders[1]])
     end
+
+    it '.sorted_by_items_shipped' do
+      expect(Order.sorted_by_items_shipped).to eq([@o6, @o5, @o4, @o3, @o2, @o1])
+    end
   end
 
   describe 'instance methods' do

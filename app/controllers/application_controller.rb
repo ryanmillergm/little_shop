@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  include ActionView::Helpers::TextHelper
 
-  helper_method :current_user, :current_admin?, :current_merchant?, :current_reguser?, :cart
+  helper_method :current_user, :current_admin?, :current_merchant?, :current_reguser?, :cart, :time_as_words
 
   def cart
     @cart ||= Cart.new(session[:cart])
@@ -45,5 +46,13 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     render file: 'public/404', status: 404 unless current_admin?
+  end
+
+  def time_as_words(time)
+    time = time.split('.').first
+    days = time[0..-10]
+    hours = time[-8..-7]
+    minutes = time[-5..-4]
+    "#{days} #{pluralize(hours, 'hour')} #{pluralize(minutes, 'minute')}"
   end
 end

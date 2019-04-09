@@ -95,4 +95,60 @@ class User < ApplicationRecord
          .order('quantity DESC')
          .limit(1).first
   end
+
+  def self.active_merchants
+    where(role: :merchant, active: true)
+  end
+
+  def self.top_merchants_by_revenue(limit)
+    merchants_sorted_by_revenue.limit(limit)
+  end
+
+  def self.merchants_sorted_by_revenue
+    self.joins(:items)
+        .joins('join order_items on items.id = order_items.item_id')
+        .joins('join orders on orders.id = order_items.order_id')
+        .where(orders: {status: :shipped}, order_items: {fulfilled: true})
+        .group(:id)
+        .select('users.*, sum(order_items.quantity * order_items.price) AS total')
+        .order("total DESC")
+  end
+
+  def self.merchants_sorted_by_fulfillment_time(limit, order = :asc)
+    self.joins(:items)
+        .joins('join order_items on items.id = order_items.item_id')
+        .joins('join orders on orders.id = order_items.order_id')
+        .where.not(orders: {status: :cancelled})
+        .where(order_items: {fulfilled: true})
+        .group(:id)
+        .select('users.*, avg(order_items.updated_at - order_items.created_at) AS fulfillment_time')
+        .order("fulfillment_time #{order}")
+        .limit(limit)
+  end
+
+  def self.top_merchants_by_fulfillment_time(limit)
+    merchants_sorted_by_fulfillment_time(limit)
+  end
+
+  def self.bottom_merchants_by_fulfillment_time(limit)
+    merchants_sorted_by_fulfillment_time(limit, :desc)
+  end
+
+  def self.top_user_states_by_order_count(limit)
+    self.joins(:orders)
+        .where(orders: {status: :shipped})
+        .group(:state)
+        .select('users.state, count(orders.id) AS order_count')
+        .order('order_count DESC')
+        .limit(limit)
+  end
+
+  def self.top_user_cities_by_order_count(limit)
+    self.joins(:orders)
+        .where(orders: {status: :shipped})
+        .group(:state, :city)
+        .select('users.city, users.state, count(orders.id) AS order_count')
+        .order('order_count DESC')
+        .limit(limit)
+  end
 end

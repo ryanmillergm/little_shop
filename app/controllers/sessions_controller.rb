@@ -15,9 +15,14 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      flash[:success] = "You are now logged in!"
-      redirect_user(user)
+      if user.active
+        session[:user_id] = user.id
+        flash[:success] = "You are now logged in!"
+        redirect_user(user)
+      else
+        flash.now[:danger] = "Your account is inactive, contact an admin for help."
+        render :new
+      end
     else
       flash.now[:danger] = "Sorry, that email and password don't match."
       render :new

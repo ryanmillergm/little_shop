@@ -64,4 +64,12 @@ class Order < ApplicationRecord
     orders_by_status(:cancelled)
   end
 
+  def self.sorted_by_items_shipped(limit = nil)
+    self.joins(:order_items)
+        .select('orders.*, sum(order_items.quantity) as quantity')
+        .where(status: :shipped, order_items: {fulfilled: true})
+        .group(:id)
+        .order('quantity desc')
+        .limit(limit)
+  end
 end

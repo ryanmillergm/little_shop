@@ -35,4 +35,19 @@ RSpec.describe "Checking out" do
       end
     end
   end
+
+  context "as a visitor" do
+    it "should tell the user to login or register" do
+      visit cart_path
+
+      expect(page).to have_content("You must register or log in to check out.")
+      click_link "register"
+      expect(current_path).to eq(registration_path)
+
+      visit cart_path
+
+      click_link "log in"
+      expect(current_path).to eq(login_path)
+    end
+  end
 end

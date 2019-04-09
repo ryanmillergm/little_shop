@@ -33,7 +33,7 @@ class Profile::OrdersController < ApplicationController
   def create
     order = Order.create(user: current_user, status: :pending)
     cart.items.each do |item, quantity|
-      order.order_items.create(item: item, quantity: quantity, price: item.price, )
+      order.order_items.create(item: item, quantity: quantity, price: item.price)
     end
     session.delete(:cart)
     flash[:success] = "Your order has been created!"

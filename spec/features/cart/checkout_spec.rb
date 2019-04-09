@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+include ActionView::Helpers::NumberHelper
+
 RSpec.describe "Checking out" do
   before :each do
     @merchant_1 = create(:merchant)
@@ -19,19 +21,56 @@ RSpec.describe "Checking out" do
   end
 
   context "as a logged in regular user" do
-    it "should create a new order" do
+    before :each do
       user = create(:user)
       login_as(user)
       visit cart_path
-      click_button "Check Out"
 
+      click_button "Check Out"
+      @new_order = Order.last
+    end
+
+    it "should create a new order" do
       expect(current_path).to eq(profile_orders_path)
-      new_order = Order.last
       expect(page).to have_content("Your order has been created!")
       expect(page).to have_content("Cart: 0")
-      within("#order-#{new_order.id}") do
-        expect(page).to have_link("Order ID #{new_order.id}")
+      within("#order-#{@new_order.id}") do
+        expect(page).to have_link("Order ID #{@new_order.id}")
         expect(page).to have_content("Status: pending")
+      end
+    end
+
+    it "should create order items" do
+      visit profile_order_path(@new_order)
+
+      within("#oitem-#{@new_order.order_items.first.id}") do
+        expect(page).to have_content(@item_1.name)
+        expect(page).to have_content(@item_1.description)
+        expect(page.find("#item-#{@item_1.id}-image")['src']).to have_content(@item_1.image)
+        expect(page).to have_content("Merchant: #{@merchant_1.name}")
+        expect(page).to have_content("Price: #{number_to_currency(@item_1.price)}")
+        expect(page).to have_content("Quantity: 1")
+        expect(page).to have_content("Fulfilled: No")
+      end
+
+      within("#oitem-#{@new_order.order_items.second.id}") do
+        expect(page).to have_content(@item_2.name)
+        expect(page).to have_content(@item_2.description)
+        expect(page.find("#item-#{@item_2.id}-image")['src']).to have_content(@item_2.image)
+        expect(page).to have_content("Merchant: #{@merchant_2.name}")
+        expect(page).to have_content("Price: #{number_to_currency(@item_2.price)}")
+        expect(page).to have_content("Quantity: 1")
+        expect(page).to have_content("Fulfilled: No")
+      end
+
+      within("#oitem-#{@new_order.order_items.third.id}") do
+        expect(page).to have_content(@item_3.name)
+        expect(page).to have_content(@item_3.description)
+        expect(page.find("#item-#{@item_3.id}-image")['src']).to have_content(@item_3.image)
+        expect(page).to have_content("Merchant: #{@merchant_2.name}")
+        expect(page).to have_content("Price: #{number_to_currency(@item_3.price)}")
+        expect(page).to have_content("Quantity: 2")
+        expect(page).to have_content("Fulfilled: No")
       end
     end
   end

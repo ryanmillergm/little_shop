@@ -51,24 +51,36 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'instance methods' do
+    before :each do
+      @merchant = create(:merchant)
+      @item = create(:item, user: @merchant)
+      @order_item_1 = create(:fulfilled_order_item, item: @item, created_at: 4.days.ago, updated_at: 12.hours.ago)
+      @order_item_2 = create(:fulfilled_order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
+      @order_item_3 = create(:fulfilled_order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
+      @order_item_4 = create(:order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
+    end
+
     describe "#average_fulfillment_time" do
       it "calculates the average number of seconds between order_item creation and completion" do
-        @merchant = create(:merchant)
-        @item = create(:item, user: @merchant)
-        @order_item_1 = create(:fulfilled_order_item, item: @item, created_at: 4.days.ago, updated_at: 12.hours.ago)
-        @order_item_2 = create(:fulfilled_order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
-        @order_item_3 = create(:fulfilled_order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
-        @order_item_4 = create(:order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
-
         expect(@item.average_fulfillment_time).to eq(158400)
       end
 
       it "returns nil when there are no order_items" do
-        @merchant = create(:merchant)
-        @item = create(:item, user: @merchant)
-        @order_item_4 = create(:order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
+        unfulfilled_item = create(:item, user: @merchant)
+        unfulfilled_order_item = create(:order_item, item: @item, created_at: 2.days.ago, updated_at: 1.day.ago)
 
-        expect(@item.average_fulfillment_time).to be_falsy
+        expect(unfulfilled_item.average_fulfillment_time).to be_falsy
+      end
+    end
+
+    describe "#ordered?" do
+      it "returns true if an item has been ordered" do
+        expect(@item.ordered?).to be_truthy
+      end
+
+      it "returns false when the item has never been ordered" do
+        unordered_item = create(:item)
+        expect(unordered_item.ordered?).to be_falsy
       end
     end
   end

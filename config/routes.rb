@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/dashboard', to: 'dashboard#index'
 
-    patch '/users/:id/upgrate', to: 'users#upgrade', as: :upgrade_user
+    patch '/users/:id/upgrade', to: 'users#upgrade', as: :upgrade_user
     resources :users, only: [:index, :show]
 
     resources :orders, only: [:show]

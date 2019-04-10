@@ -8,6 +8,12 @@ RSpec.describe Cart do
       @cart = Cart.new({"1" => 3, "4" => 2})
     end
 
+    describe "#total_item_count" do
+      it "returns the total item count" do
+        expect(@cart.total_item_count).to eq(5)
+      end
+    end
+
     describe "#contents" do
       it "returns the contents" do
         expect(@cart.contents).to eq({"1" => 3, "4" => 2})
@@ -69,6 +75,12 @@ RSpec.describe Cart do
   describe "Cart with empty contents" do
     before :each do
       @cart = Cart.new(nil)
+    end
+
+    describe "#total_item_count" do
+      it "returns 0 when there are no contents" do
+        expect(@cart.total_item_count).to eq(0)
+      end
     end
 
     describe "#contents" do

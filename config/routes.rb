@@ -29,7 +29,10 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     get '/', to: 'dashboard#index'
-    resources :items, except: [:destroy]
+
+    resources :items
+    patch '/items/:id/enable', to: 'items#enable', as: 'enable_item'
+    patch '/items/:id/disable', to: 'items#disable', as: 'disable_item'
     put '/order_items/:order_item_id/fulfill', to: 'orders#fulfill', as: 'fulfill_order_item'
     resources :orders, only: [:show]
   end

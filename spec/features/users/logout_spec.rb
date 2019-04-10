@@ -15,5 +15,20 @@ RSpec.describe "clicking the logout button" do
     expect(page).to_not have_content("Log Out")
   end
 
-  it "deletes all items in the cart"
+  it "deletes all items in the cart" do
+    item = create(:item)
+
+    visit item_path(item)
+    click_on "Add to Cart"
+    visit item_path(item)
+    click_on "Add to Cart"
+    expect(page).to have_content("Cart: 2")
+
+    visit logout_path
+
+    expect(page).to have_content("Cart: 0")
+
+    visit cart_path
+    expect(page).to have_content("Your Cart is empty.")
+  end
 end

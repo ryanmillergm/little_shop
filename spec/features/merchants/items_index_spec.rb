@@ -53,29 +53,29 @@ RSpec.describe "Merchant index page" do
 
   it "has a delete link for items that have never been ordered" do
     within("#item-#{@item_1.id}") do
-      expect(page).to_not have_link("delete")
+      expect(page).to_not have_button("Delete Item")
     end
 
     within("#item-#{@item_2.id}") do
-      expect(page).to_not have_link("delete")
+      expect(page).to_not have_button("Delete Item")
     end
 
     within("#item-#{@item_3.id}") do
-      expect(page).to have_link("delete")
+      expect(page).to have_button("Delete Item")
     end
   end
 
   it "has buttons to enable/disable items" do
     within("#item-#{@item_1.id}") do
-      expect(page).to have_link("disable")
+      expect(page).to have_button("Disable Item")
     end
 
     within("#item-#{@item_2.id}") do
-      expect(page).to have_link("disable")
+      expect(page).to have_button("Disable Item")
     end
 
     within("#item-#{@item_3.id}") do
-      expect(page).to have_link("enable")
+      expect(page).to have_button("Enable Item")
     end
   end
 end

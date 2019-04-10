@@ -9,15 +9,15 @@
   <p>Price: <%= number_to_currency(item.price) %></p>
   <p>Inventory: <%= item.inventory %></p>
   <% if item.active? %>
-    <%= link_to "disable" %>
+    <%= button_to "Disable Item", dashboard_disable_item_path(item), method: :patch %>
   <% else %>
-    <%= link_to "enable" %>
+    <%= button_to "Enable Item", dashboard_enable_item_path(item), method: :patch %>
   <% end %>
 
   <%= link_to "edit", edit_dashboard_item_path(item) %>
 
   <% unless item.ordered? %>
-    <%= link_to "delete" %>
+    <%= button_to "Delete Item", dashboard_item_path(item), method: :delete %>
   <% end %>
   <% end %>
 <% end %>

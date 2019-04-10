@@ -1,7 +1,11 @@
 class Admin::MerchantsController < Admin::BaseController
   def show
     @merchant = User.find(params[:id])
-    render :'/dashboard/dashboard/index'
+    if @merchant.role == "merchant"
+      render :'/dashboard/dashboard/index'
+    else
+      redirect_to admin_user_path(@merchant)
+    end
   end
 
   def enable
@@ -10,6 +14,13 @@ class Admin::MerchantsController < Admin::BaseController
 
   def disable
     set_user_active(false)
+  end
+
+  def downgrade
+    @merchant = User.find(params[:id])
+    @merchant.role = 'default'
+    @merchant.save
+    redirect_to admin_user_path(@merchant)
   end
 
   private

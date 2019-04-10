@@ -100,6 +100,10 @@ class User < ApplicationRecord
     where(role: :merchant, active: true)
   end
 
+  def self.default_users
+    where(role: :default)
+  end
+
   def self.top_merchants_by_revenue(limit)
     merchants_sorted_by_revenue.limit(limit)
   end

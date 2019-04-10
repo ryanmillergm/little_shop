@@ -192,6 +192,14 @@ RSpec.describe User, type: :model do
       expect(User.active_merchants).to eq(active_merchants)
     end
 
+    it '.default_users' do
+      users = create_list(:user, 3)
+      merchant = create(:merchant)
+      admin = create(:admin)
+
+      expect(User.default_users).to eq(users)
+    end
+
     describe "statistics" do
       before :each do
         u1 = create(:user, state: "CO", city: "Fairfield")

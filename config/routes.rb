@@ -50,5 +50,8 @@ Rails.application.routes.draw do
       resources :items, only: [:index, :new]
       resources :orders, only: [:show]
     end
+
+    patch '/users/:id/upgrade', to: 'users#upgrade', as: :upgrade_user
+    patch '/merchants/:id/downgrade', to: 'merchants#downgrade', as: :downgrade_merchant
   end
 end

@@ -44,4 +44,8 @@ class Item < ApplicationRecord
     return nil unless average_time
     convert_datetime_to_seconds(average_time)
   end
+
+  def ordered?
+    order_items.count > 0
+  end
 end

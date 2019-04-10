@@ -8,6 +8,14 @@
   </a>
   <p>Price: <%= number_to_currency(item.price) %></p>
   <p>Inventory: <%= item.inventory %></p>
-
+  <% if item.active? %>
+    <%= link_to "disable" %>
+  <% else %>
+    <%= link_to "enable" %>
+  <% end %>
+  <%= link_to "edit" %>
+  <% unless item.ordered? %>
+    <%= link_to "delete" %>
+  <% end %>
   <% end %>
 <% end %>

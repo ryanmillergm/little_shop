@@ -13,7 +13,9 @@
   <% else %>
     <%= button_to "Enable Item", dashboard_enable_item_path(item), method: :patch %>
   <% end %>
-  <%= link_to "edit" %>
+
+  <%= link_to "edit", edit_dashboard_item_path(item) %>
+
   <% unless item.ordered? %>
     <%= button_to "Delete Item", dashboard_item_path(item), method: :delete %>
   <% end %>

@@ -66,7 +66,6 @@ RSpec.describe "Merchant editing an item" do
       fill_in :item_description, with: ""
       fill_in :item_price, with: ""
       fill_in :item_inventory, with: ""
-      fill_in :item_image, with: @updated_image
       click_button "Update Item"
 
       expect(page).to have_content("Name can't be blank")
@@ -88,5 +87,19 @@ RSpec.describe "Merchant editing an item" do
 
       expect(page).to have_content("Inventory must be greater than or equal to 0")
     end
+  end
+
+  it "repopulates fields with current data when update is unsucessfull" do
+    fill_in :item_name, with: ""
+    fill_in :item_description, with: ""
+    fill_in :item_price, with: ""
+    fill_in :item_inventory, with: ""
+    click_button "Update Item"
+
+    expect(page).to have_css("[@value='#{@item.name}']")
+    expect(page).to have_css("[@value='#{@item.description}']")
+    expect(page).to have_css("[@value='#{@item.price}']")
+    expect(page).to have_css("[@value='#{@item.inventory}']")
+    expect(page).to have_css("[@value='#{@item.image}']")
   end
 end

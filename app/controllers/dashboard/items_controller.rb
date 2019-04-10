@@ -30,10 +30,11 @@ class Dashboard::ItemsController < Dashboard::BaseController
       redirect_to dashboard_items_path
     else
       flash[:danger] = @item.errors.full_messages
+      @item = Item.find(params[:id])
       render :edit
     end
   end
-    
+
   def enable
     @item = Item.find(params[:id])
     if @item.user == current_user
@@ -77,7 +78,7 @@ class Dashboard::ItemsController < Dashboard::BaseController
     end
     item_parameters
   end
-  
+
   def toggle_active(item, state)
     item.active = state
     item.save

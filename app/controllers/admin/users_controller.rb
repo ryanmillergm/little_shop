@@ -9,4 +9,11 @@ class Admin::UsersController < Admin::BaseController
       redirect_to admin_merchant_path(@user)
     end
   end
+
+  def upgrade
+    user = User.find(params[:id])
+    user.update(role: :merchant)
+    flash[:success] = "#{user.name} is now a merchant."
+    redirect_to admin_merchant_path(user)
+  end
 end

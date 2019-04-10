@@ -1,7 +1,7 @@
 class Admin::MerchantsController < Admin::BaseController
   def show
     @merchant = User.find(params[:id])
-    if @merchant.role == :merchant
+    if @merchant.role == "merchant"
       render :'/dashboard/dashboard/index'
     else
       redirect_to admin_user_path(@merchant)

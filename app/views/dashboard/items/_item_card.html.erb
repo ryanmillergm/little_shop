@@ -13,7 +13,9 @@
   <% else %>
     <%= link_to "enable" %>
   <% end %>
-  <%= link_to "edit" %>
+
+  <%= link_to "edit", edit_dashboard_item_path(item) %>
+
   <% unless item.ordered? %>
     <%= link_to "delete" %>
   <% end %>

@@ -19,6 +19,21 @@ class Dashboard::ItemsController < Dashboard::BaseController
     end
   end
 
+  def edit
+    @item = Item.find(params[:id])
+  end
+
+  def update
+    @item = Item.find(params[:id])
+    if @item.update(item_params)
+      flash[:success] = "Your Item has been updated!"
+      redirect_to dashboard_items_path
+    else
+      flash[:danger] = @item.errors.full_messages
+      render :edit
+    end
+  end
+
   private
 
   def item_params

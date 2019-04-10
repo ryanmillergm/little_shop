@@ -32,7 +32,7 @@ RSpec.describe "Merchant adding an item" do
         expect(page).to have_content(new_item.price)
         expect(page).to have_content(new_item.inventory)
         expect(page).to have_xpath("//img[@src='#{new_item.image}']")
-        expect(page).to have_link("disable")
+        expect(page).to have_button("Disable Item")
       end
     end
 
@@ -48,7 +48,7 @@ RSpec.describe "Merchant adding an item" do
         expect(page).to have_content(new_item.price)
         expect(page).to have_content(new_item.inventory)
         expect(page).to have_xpath("//img[@src='https://picsum.photos/200/300']")
-        expect(page).to have_link("disable")
+        expect(page).to have_button("Disable Item")
       end
     end
   end

@@ -44,7 +44,7 @@ RSpec.describe "Merchant editing an item" do
         expect(page).to have_content(@updated_price)
         expect(page).to have_content(@updated_inventory)
         expect(page).to have_xpath("//img[@src='#{@updated_image}']")
-        expect(page).to have_link("disable")
+        expect(page).to have_button("Disable Item")
       end
     end
 

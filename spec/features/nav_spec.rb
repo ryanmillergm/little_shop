@@ -146,7 +146,9 @@ RSpec.describe 'Site Nav', type: :feature do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
 
     visit admin_merchant_path(@user)
-
     expect(current_path).to eq(admin_user_path(@user))
+
+    visit admin_user_path(@merchant)
+    expect(current_path).to eq(admin_merchant_path(@merchant))
   end
 end

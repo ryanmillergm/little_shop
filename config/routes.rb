@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   delete '/cart', to: 'cart#destroy', as: :empty_cart
   delete '/cart/items/:id', to: 'cart#remove_item', as: :remove_item
 
-
   resources :items, only: [:index, :show]
   resources :merchants, only: [:index]
 
@@ -30,7 +29,7 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     get '/', to: 'dashboard#index'
-    resources :items, only: [:index, :show, :new]
+    resources :items, only: [:index, :show, :new, :create]
     put '/order_items/:order_item_id/fulfill', to: 'orders#fulfill', as: 'fulfill_order_item'
     resources :orders, only: [:show]
   end
@@ -38,6 +37,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/dashboard', to: 'dashboard#index'
 
+    patch '/merchants/:id/downgrade', to: 'merchants#downgrade', as: :downgrade_merchant
     patch '/users/:id/upgrade', to: 'users#upgrade', as: :upgrade_user
     resources :users, only: [:index, :show]
 
@@ -50,8 +50,5 @@ Rails.application.routes.draw do
       resources :items, only: [:index, :new]
       resources :orders, only: [:show]
     end
-
-    patch '/users/:id/upgrade', to: 'users#upgrade', as: :upgrade_user
-    patch '/merchants/:id/downgrade', to: 'merchants#downgrade', as: :downgrade_merchant
   end
 end

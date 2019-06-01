@@ -93,7 +93,6 @@ RSpec.describe 'user profile', type: :feature do
         scenario 'all attributes are updated' do
           login_as(@user)
           old_digest = @user.password_digest
-
           visit edit_profile_path
 
           fill_in :user_name, with: @updated_name

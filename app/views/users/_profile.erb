@@ -6,8 +6,12 @@
   <p>Role: <%= @user.role %></p>
   <aside id="address-details">
     <h3>Address:</h3>
+    <p><% @user.address%></p>
+    <p><%= @user.address %>,
+      <%= @user.city %>,
+      <%= @user.state %>
+      <%= @user.zip %>
     <p><% @user.addresses.each do |address|%></p>
-    <% binding.pry %>
     <p>
       <%= address.nickname %>
       <br>

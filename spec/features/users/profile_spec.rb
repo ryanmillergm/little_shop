@@ -44,6 +44,27 @@ RSpec.describe 'user profile', type: :feature do
       end
     end
 
+    it 'can add another address' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+      visit profile_path
+
+      within("#adds-address")
+      click_link 'Add another address'
+
+      expect(current_path).to eq(new_address_path)
+
+      fill_in :user_address, with: "222 st"
+      fill_in :user_city, with: "Placentia"
+      fill_in :user_state, with: "Ca"
+      fill_in :user_zip, with: "92870"
+
+      expect(current_path).to eq('/profile')
+      expect(page).to have_content('222 st')
+      expect(page).to have_content('Placentia')
+      expect(page).to have_content('Ca')
+      expect(page).to have_content('92870')
+    end
+
     describe 'user information is updated' do
       before :each do
         @updated_name = 'Updated Name'

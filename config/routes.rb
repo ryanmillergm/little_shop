@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show, :destroy, :create]
   end
 
+  resources :addresses, only: [:new, :create]
+
   namespace :dashboard do
     get '/', to: 'dashboard#index'
 
@@ -53,5 +55,6 @@ Rails.application.routes.draw do
       resources :items, only: [:index, :new]
       resources :orders, only: [:show]
     end
+
   end
 end

@@ -6,18 +6,22 @@
   <p>Role: <%= @user.role %></p>
   <aside id="address-details">
     <h3>Address:</h3>
-    <p><%= @user.address %></p>
+    <p><% @user.addresses.each do |address|%></p>
     <p>
-      <%= @user.city %>,
-      <%= @user.state %>
-      <%= @user.zip %>
+      <%= address.nickname %>
+      <br>
+      <%= address.address %>,
+      <%= address.city %>,
+      <%= address.state %>
+      <%= address.zip %>
+      <% end %>
     </p>
   </aside>
   <p><%= link_to 'Edit Profile Data', edit_profile_path unless current_admin? %></p>
 </section>
 
 <section id="adds-address">
-  <p> <%= link_to "Add another address", new_address_path %> </p>
+  <p> <%= link_to "Add another address", new_address_path(user_id: @user) %> </p>
 </section>
 
 <section id="orders-data">

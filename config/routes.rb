@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   end
 
   resources :addresses, only: [:new, :create]
+  resources :users do
+    resources :addresses, only: :create
+  end
 
   namespace :dashboard do
     get '/', to: 'dashboard#index'

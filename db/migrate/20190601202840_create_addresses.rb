@@ -6,9 +6,8 @@ class CreateAddresses < ActiveRecord::Migration[5.1]
       t.string :city
       t.string :state
       t.string :zip
-      t.boolean :primary
+      t.boolean :primary, default: false
       t.references :user, foreign_key: true
-      t.references :order, foreign_key: true
     end
   end
 end

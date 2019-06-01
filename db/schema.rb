@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190601173313) do
+ActiveRecord::Schema.define(version: 20190601202840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,10 +21,8 @@ ActiveRecord::Schema.define(version: 20190601173313) do
     t.string "city"
     t.string "state"
     t.string "zip"
-    t.boolean "primary"
+    t.boolean "primary", default: false
     t.bigint "user_id"
-    t.bigint "order_id"
-    t.index ["order_id"], name: "index_addresses_on_order_id"
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
@@ -78,7 +76,6 @@ ActiveRecord::Schema.define(version: 20190601173313) do
     t.index ["state"], name: "index_users_on_state"
   end
 
-  add_foreign_key "addresses", "orders"
   add_foreign_key "addresses", "users"
   add_foreign_key "items", "users", column: "merchant_id"
   add_foreign_key "order_items", "items"

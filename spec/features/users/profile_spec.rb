@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'user profile', type: :feature do
   before :each do
+    @order = create(:order)
     @user = create(:user)
+    @address = Address.create!(nickname: "home", address: "111 st", city: "Orange", state: "Ca", zip: "92886", primary: true, user_id: @user.id)
   end
 
   describe 'registered user visits their profile' do
@@ -45,20 +47,31 @@ RSpec.describe 'user profile', type: :feature do
     end
 
     it 'can add another address' do
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-      visit profile_path
+      # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+      user = User.create!(email: "ryan@gmail.com", name: "Ryan", password: "password", role: 0, address: "234 st", city: "LA", state: "Ca", zip: "93742")
+      visit login_path
+
+      fill_in :email, with: @user.email
+      fill_in :password, with: @user.password
+
+      click_button "Log in"
+
+      expect(current_path).to eq(profile_path)
 
       within("#adds-address")
+
       click_link 'Add another address'
 
       expect(current_path).to eq(new_address_path)
+      fill_in "Nickname", with: "work"
+      fill_in "Address", with: "222 st"
+      fill_in "City", with: "Placentia"
+      fill_in "State", with: "Ca"
+      fill_in "Zip", with: "92870"
 
-      fill_in :user_address, with: "222 st"
-      fill_in :user_city, with: "Placentia"
-      fill_in :user_state, with: "Ca"
-      fill_in :user_zip, with: "92870"
+      click_on "Create Address"
 
-      expect(current_path).to eq('/profile')
+      expect(current_path).to eq(profile_path(@user))
       expect(page).to have_content('222 st')
       expect(page).to have_content('Placentia')
       expect(page).to have_content('Ca')
@@ -102,6 +115,7 @@ RSpec.describe 'user profile', type: :feature do
           within '#profile-data' do
             expect(page).to have_content("Email: #{@updated_email}")
             within '#address-details' do
+              save_and_open_page
               expect(page).to have_content("#{@updated_address}")
               expect(page).to have_content("#{@updated_city}, #{@updated_state} #{@updated_zip}")
             end
